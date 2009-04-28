@@ -1,0 +1,8 @@
+DPD only depends of IPOPT solver (https://projects.coin-or.org/Ipopt)
+ who is an part of COIN-OR(http://www.coin-or.org/).
+
+There is no particular help for compiling the graphical interface (the Java code),
+but an simple javac *.java is enough. Two MakeFiles exist for C++ part,
+one for windows and another for linux. On windows, you must install an particular version 
+of GCC for compiling.(see IPOPT documentation). For any extra, send an email 
+to help guillaume.lanquepin@himolde.no .

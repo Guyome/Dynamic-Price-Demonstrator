@@ -1,0 +1,80 @@
+# Copyright (C) 2003, 2006 International Business Machines and others.
+# All Rights Reserved.
+# This file is distributed under the Common Public License.
+
+# $Id: Makefile.in 1135 2007-12-27 19:23:06Z andreasw $
+
+##########################################################################
+#    You can modify this example makefile to fit for your own program.   #
+#    Usually, you only need to change the five CHANGEME entries below.   #
+##########################################################################
+
+# CHANGEME: This should be the name of your executable
+SO = libsolvers.so
+
+# CHANGEME: Here is the name of all object files corresponding to the source
+#           code that you wrote in order to define the problem statement
+OBJS =  FreeSolver.o \
+	SingleSolver.o \
+	IpOptSolver.o
+
+# CHANGEME: Additional libraries
+ADDLIBS =
+
+# CHANGEME: Additional flags for compilation (e.g., include flags)
+ADDINCFLAGS =
+
+# CHANGEME: Directory to the sources for the (example) problem definition
+# files
+SRCDIR = .
+
+
+##########################################################################
+#  Usually, you don't have to change anything below.  Note that if you   #
+#  change certain compiler options, you might have to recompile Ipopt.   #
+##########################################################################
+
+# C++ Compiler command
+CXX = g++
+
+# C++ Compiler options
+CXXFLAGS = -shared
+
+# additional C++ Compiler options for linking
+CXXLINKFLAGS = 
+
+# Directory with header files
+IPOPTINCDIR = ${prefix}/include/coin
+
+# Directory with libipopt.a
+IPOPTLIBDIR = ${exec_prefix}/lib
+exec_prefix = ${prefix}
+prefix = /usr
+
+#Directory with Java Jdk
+JNILIBDIR=/usr/lib/jvm/java-6-openjdk/include
+JNILIBDIRLINUX=$(JNILIBDIR)/linux
+
+# Libraries necessary to link with IPOPT and CLP 
+LIBS = -L$(IPOPTLIBDIR) -lipopt -lClp -lCoinUtils -lpthread
+
+# Necessary Include dirs (we use the CYGPATH_W variables to allow
+# compilation with Windows compilers)
+INCL = -I$(IPOPTINCDIR) $(ADDINCFLAGS) -I$(JNILIBDIR) -I$(JNILIBDIRLINUX)
+
+
+all: $(SO)
+
+.SUFFIXES: .cpp .c .o .obj
+
+$(SO): $(OBJS)
+	$(CXX) $(CXXLINKFLAGS) $(CXXFLAGS) -o $@ $(OBJS) $(ADDLIBS) $(LIBS)
+
+clean:
+	rm -rf $(SO) $(OBJS)
+
+.cpp.o:
+	$(CXX) $(CXXFLAGS) $(INCL) -c -o $@ $<
+
+.cpp.obj:
+	$(CXX) $(CXXFLAGS) $(INCL) -c -o $@ 
